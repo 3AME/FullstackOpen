@@ -69,7 +69,6 @@ npm start
 
 Here is a quick overview of my progress in the course:
 
-| Part | Exercises Completed | Notes |
 | Part  | Exercises Completed  | Notes  |  
 |---|---|---|
 | Part 0  | &check; |   | 
