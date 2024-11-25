@@ -72,7 +72,7 @@ Here is a quick overview of my progress in the course:
 | Part | Exercises Completed | Notes |
 | Part  | Exercises Completed  | Notes  |  
 |---|---|---|
-| Part 0  |  |   | 
+| Part 0  | &check; |   | 
 | Part 1  |   |   |  
 | Part 2  |   |   | 
 | ...  |   |   | 
