@@ -16,8 +16,9 @@ const App = () => {
   // Create a zero-filled array of the desired length https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781 
   // By default Uint8Array, Uint16Array and Uint32Array classes keep zeros as it's values 
   // var ary = new Uint8Array(10); 
+
   const [points, setPoints] = useState(new Uint16Array(anecdotes.length))
-  // console.log(points)
+  const [maxVote, setMaxVote] = useState(0)
 
 
   const handleClick = () => {
@@ -26,22 +27,38 @@ const App = () => {
     setSelected(random)
   }
 
-  const handleVote = () =>{
-    // console.log('clicked')
-    const copy = {...points}
-    copy[selected] +=1
+  const handleVote = () => {
+    // Unit16Array is a typed arry, so {...points} would not create a copy properly
+    // Deep copy
+    const copy = Array.from(points)
+    copy[selected] += 1
     setPoints(copy)
-    // console.log("points", points)
+    findMaxIndex(copy);
+  }
+
+  const findMaxIndex = (arr) => {
+    let maxIndex = 0
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] > arr[maxIndex]) {
+        maxIndex = i
+      }
+    }
+    setMaxVote(maxIndex)
   }
 
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <div>
         {anecdotes[selected]}
       </div>
       <p>has {points[selected]} votes</p>
       <button onClick={handleVote}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
+
+      <h1>Anecdote with most votes</h1>
+      <div>{anecdotes[maxVote]}</div>
+      <p>has {points[maxVote]} votes</p>
     </>
   )
 }
