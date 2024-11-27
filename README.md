@@ -38,7 +38,7 @@ The repository is organized as follows:
 
 Each folder contains:
 * The source code for the exercises
-* A READEME.md file (where applicable) dexcribing the specific exercises
+<!-- * A READEME.md file (where applicable) dexcribing the specific exercises -->
 
 ## How to Use
 
@@ -72,7 +72,7 @@ Here is a quick overview of my progress in the course:
 | Part  | Exercises Completed  | Notes  |  
 |---|---|---|
 | Part 0  | &check; |   | 
-| Part 1  |   |   |  
+| Part 1  | &check;  |   |  
 | Part 2  |   |   | 
 | ...  |   |   | 
 |  | &check;  |    |
