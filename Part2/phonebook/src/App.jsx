@@ -8,10 +8,19 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const newNameObject = {
-      name: newName,
+    //includes method checks for primitive values in an array(e.g., numbers or strings), but it cannot directly check for objects or their properties. 
+    const personsName = persons.map(item => item.name)
+    // console.log(personsName.includes(newName))
+    if (personsName.includes(newName)) {
+      alert(`${newName} is already added to phonebook`)
     }
-    setPersons(persons.concat(newNameObject))
+    else {
+      const newNameObject = {
+        name: newName,
+      }
+      setPersons(persons.concat(newNameObject))
+    }
+
     setNewName('')
     // console.log('save')
   }
