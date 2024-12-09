@@ -26,10 +26,26 @@ const App = () => {
     // console.log('clicked')
     event.preventDefault()
     //includes method checks for primitive values in an array(e.g., numbers or strings), but it cannot directly check for objects or their properties. 
-    const personsName = persons.map(item => item.name)
-    // console.log(personsName.includes(newName))
-    if (personsName.includes(newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const personWithDifferentNumber = persons.find(
+      person => person.name === newName && person.number !== newNumber
+    )
+    // console.log(personWithDifferentNumber)
+    if (personWithDifferentNumber) {
+      const { id } = personWithDifferentNumber
+      // console.log(id)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const updatedPerson = {
+          ...personWithDifferentNumber,
+          number: newNumber
+        }
+        personsService
+          .updateNumber(id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id === id ? returnedPerson : person))
+            // console.log(persons)
+            // console.log('number updated successfully')
+          })
+      }
     }
     else {
       const newNameObject = {
