@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,6 +17,7 @@ const App = () => {
   const [isFilter, setIsFilter] =useState(false)
 
   const addPerson = (event) => {
+    // console.log('clicked')
     event.preventDefault()
     //includes method checks for primitive values in an array(e.g., numbers or strings), but it cannot directly check for objects or their properties. 
     const personsName = persons.map(item => item.name)
@@ -66,27 +70,16 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        filter shown with <input value={filterValue} onChange={handleFilter} />
-      </div>
+      <Filter value={filterValue} onChange={handleFilter}/>
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handlePersonChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm onSubmit={addPerson} 
+        name={newName}
+        nameChange={handlePersonChange}
+        number={newNumber}
+        numberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
-      <div>
-        {phonebook.map(person =>
-          <p key={person.name}>{person.name} {person.number}</p>
-        )}
-      </div>
+      <Persons persons={phonebook}/>
 
     </div>
   )
