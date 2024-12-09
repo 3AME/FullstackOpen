@@ -17,13 +17,13 @@ const App = () => {
     // console.log('effect')
     personsService
       .getAll()
-      .then(initialPersons=>{
+      .then(initialPersons => {
         setPersons(initialPersons)
       })
   }, [])
 
   const addPerson = (event) => {
-    console.log('clicked')
+    // console.log('clicked')
     event.preventDefault()
     //includes method checks for primitive values in an array(e.g., numbers or strings), but it cannot directly check for objects or their properties. 
     const personsName = persons.map(item => item.name)
@@ -38,7 +38,7 @@ const App = () => {
       }
       personsService
         .create(newNameObject)
-        .then(returnedPerson=>{
+        .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
         })
     }
@@ -80,6 +80,17 @@ const App = () => {
     return arr.filter((el) => el.toLowerCase().includes(query.toLowerCase()))
   }
 
+  const deletePersonOf = (id, name) => {
+    window.confirm(`Delete ${name} ?`)
+    personsService
+      .deletePerson(id)
+      .then(returnedPerson => {
+        const newPersons = persons.filter((item) => item.id !== returnedPerson.id)
+        setPersons(newPersons)
+        // console.log(returnedPerson)
+      })
+  }
+
   const phonebook = isFilter ? personsToShow : persons
   // console.log("filter?",isFilter, phonebook)
 
@@ -95,8 +106,14 @@ const App = () => {
         numberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={phonebook} />
-
+      {phonebook.map(person =>
+        <Persons
+          key={person.id}
+          name={person.name}
+          number={person.number}
+          deletePerson={() => deletePersonOf(person.id, person.name)}
+        />
+      )}
     </div>
   )
 }
