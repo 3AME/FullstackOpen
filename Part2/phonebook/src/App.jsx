@@ -13,7 +13,7 @@ const App = () => {
   const [filterValue, setFilterValue] = useState('')
   const [personsToShow, setPersonsToShow] = useState([])
   const [isFilter, setIsFilter] = useState(false)
-  const [notification, setNotification] = useState(null)
+  const [notification, setNotification] = useState({type:'', text:''})
 
   useEffect(() => {
     // console.log('effect')
@@ -44,14 +44,27 @@ const App = () => {
           .updateNumber(id, updatedPerson)
           .then(returnedPerson => {
             setNotification(
-              `Changed the number of '${returnedPerson.name}' `
+              {type:'message',
+                text:`Changed the number of '${returnedPerson.name}' `
+              }
             )
             setTimeout(() => {
-              setNotification(null)
+              setNotification({type:'', text:''})
             }, 5000)
             setPersons(persons.map(person => person.id === id ? returnedPerson : person))
             // console.log(persons)
             // console.log('number updated successfully')
+          })
+          .catch(error => {
+            console.log(error)
+            setNotification(
+              {type:'error',
+                text: `Information of '${personWithDifferentNumber.name}' has already removed from server`
+              }
+            )
+            setTimeout(() => {
+              setNotification({type:'', text:''})
+            }, 5000)
           })
       }
     }
@@ -64,12 +77,17 @@ const App = () => {
         .create(newNameObject)
         .then(returnedPerson => {
           setNotification(
-            `Added '${returnedPerson.name}' `
+            {type:'message',
+              text: `Added '${returnedPerson.name}' `
+            }
           )
           setTimeout(() => {
-            setNotification(null)
+            setNotification({type:'', text:''})
           }, 5000)
           setPersons(persons.concat(returnedPerson))
+        })
+        .catch(error => {
+          console.log(error)
         })
     }
     setNewName('')
@@ -119,6 +137,9 @@ const App = () => {
         setPersons(newPersons)
         // console.log(returnedPerson)
       })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const phonebook = isFilter ? personsToShow : persons
@@ -127,7 +148,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={notification} />
+      <Notification type={notification.type}  text={notification.text}/>
       <Filter value={filterValue} onChange={handleFilter} />
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson}
