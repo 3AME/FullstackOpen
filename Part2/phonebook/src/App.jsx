@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-import axios from 'axios'
 import personsService from './services/persons'
+import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [filterValue, setFilterValue] = useState('')
   const [personsToShow, setPersonsToShow] = useState([])
   const [isFilter, setIsFilter] = useState(false)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     // console.log('effect')
@@ -41,6 +43,12 @@ const App = () => {
         personsService
           .updateNumber(id, updatedPerson)
           .then(returnedPerson => {
+            setNotification(
+              `Changed the number of '${returnedPerson.name}' `
+            )
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000)
             setPersons(persons.map(person => person.id === id ? returnedPerson : person))
             // console.log(persons)
             // console.log('number updated successfully')
@@ -55,6 +63,12 @@ const App = () => {
       personsService
         .create(newNameObject)
         .then(returnedPerson => {
+          setNotification(
+            `Added '${returnedPerson.name}' `
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
           setPersons(persons.concat(returnedPerson))
         })
     }
@@ -113,6 +127,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notification} />
       <Filter value={filterValue} onChange={handleFilter} />
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson}
