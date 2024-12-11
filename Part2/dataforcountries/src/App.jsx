@@ -15,6 +15,11 @@ function App() {
     languages: [],
     flags: [],
   })
+  const [capitalWeather, setCapitalWeather] = useState({
+    temperature: '',
+    weatherIcon: '',
+    windspeed: ''
+  })
 
   useEffect(() => {
     countriesService
@@ -26,16 +31,30 @@ function App() {
   }, [])
   // console.log(countries)
 
+  useEffect(() => {
+    // console.log('countryInfo', countryInfo)
+    if (countryInfo.capital) {
+      countriesService
+        .weatherInCapital(countryInfo.capital)
+        .then(returnedWeather => {
+          // console.log(returnedWeather)
+          setCapitalWeather({
+            temperature: returnedWeather.main.temp,
+            weatherIcon: returnedWeather.weather[0].icon,
+            windspeed: returnedWeather.wind.speed
+          })
+        })
+    }
+  }, [countryInfo])
   const handleSearch = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     const query = event.target.value
     if (query.length === 0) {
-      console.log('clean the search box')
+      // console.log('clean the search box')
       setSearchValue('')
       setMessage('')
       setCountriesToShow([])
       setCountryInfo({})
-      setTimeout(() => console.log('message', message), 0)
       // console.log('message', message)
     }
     else {
@@ -44,13 +63,13 @@ function App() {
       // console.log(countries[0].name.common)
       const countriesName = countries.map(country => country.name.common)
       const searchResult = searchItems(countriesName, query)
-      console.log(searchResult)
+      // console.log(searchResult)
       if (searchResult.length > 10) {
         // console.log('Too many matches, specify another filter')
         setMessage('Too many matches, specify another filter')
       }
       else if (searchResult.length <= 10 && searchResult.length > 1) {
-        console.log(searchResult)
+        // console.log(searchResult)
         setMessage('')
         setCountriesToShow(searchResult)
         setCountryInfo({})
@@ -60,7 +79,7 @@ function App() {
         countriesService
           .searchByName(searchResult)
           .then(returnedCountry => {
-            console.log("result", returnedCountry)
+            // console.log("result", returnedCountry)
             setCountryInfo({
               name: returnedCountry.name.common,
               capital: returnedCountry.capital,
@@ -70,7 +89,7 @@ function App() {
             })
             setMessage('')
             setCountriesToShow([])
-            // console.log('png', returnedCountry.flags.png)
+            // console.log('capitalLat', returnedCountry.capitalInfo.latlng[0])
           })
       }
       else {
@@ -80,17 +99,17 @@ function App() {
     }
   }
 
-  // console.log('message1', message)
+  // console.log('capitalWeather', capitalWeather)
   const searchItems = (arr, query) => {
     return arr.filter((el) => el.toLowerCase().includes(query.toLowerCase()))
   }
 
   const handleShowInfo = (country) => {
-    console.log('show info', country)
+    // console.log('show info', country)
     countriesService
       .searchByName(country)
       .then(returnedCountry => {
-        console.log(returnedCountry)
+        // console.log(returnedCountry)
         setCountryInfo({
           name: returnedCountry.name.common,
           capital: returnedCountry.capital,
@@ -100,6 +119,7 @@ function App() {
         })
       })
   }
+
   return (
     <>
       <div>
@@ -116,6 +136,7 @@ function App() {
         )}
         {countryInfo.name &&
           <CountryInfo countryInfo={countryInfo}
+          weatherInfo={capitalWeather}
           />}
       </div>
     </>

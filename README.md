@@ -73,7 +73,7 @@ Here is a quick overview of my progress in the course:
 |---|---|---|
 | Part 0  | &check; |   | 
 | Part 1  | &check;  |   |  
-| Part 2  |   |   | 
+| Part 2  | &check;  |   | 
 | ...  |   |   | 
 |  | &check;  |    |
 
