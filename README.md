@@ -32,6 +32,7 @@ The repository is organized as follows:
 |--- part0/     # Exercises for part 0: Fundmentals of Web Apps
 |--- part1/     # Exercises for part 1: Introduction to React
 |--- Part2/     # Exercises for part 2: Communicatiing with the Server
+|--- Part3/     # Exercises for part 3: Programming a server with NodeJS and Express
 |--- ...        # Additional parts as the course progresses
 |--- README.md  # This file
 ```
